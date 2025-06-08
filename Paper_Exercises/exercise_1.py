@@ -33,4 +33,12 @@ A = np.vstack((np.ones_like(x),x))
 #Could have used np.zeros, but just a diagonal matrix would work
 C = np.diag(sigma_y**2)
 
+#Calculating [A.transpose C.inverse A].inverse (The first part)
+#Also another thing about matrix multiplication, in numpy, we use this @ to multiply
 
+left_part = np.linalg.inv(A.T @ np.linalg.inv(C) @ A)
+right_part= A.T @ np.linalg.inv(C) @ Y
+
+X= left_part @ right_part
+
+Y = A @ X
