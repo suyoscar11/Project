@@ -14,3 +14,23 @@ exs1_data = data.iloc[4:]
 
 final_data= exs1_data.drop(["sigma_x", "rho_xy"], axis=1)
 print(final_data)
+
+
+#This .values will return a numpy array
+x= data["x"].values
+y= data["y"].values
+sigma_y = data["sigma_y"].values
+
+
+#An interesting thing I found out while writing this code, so numpy has smthg like (N,1), where N is row and 1 is column, SInce according to the problem
+#statement we need a column vector of Y, so the positional argument at index 2 will be column, and assigning -1 will automatically set up rows in numpy
+Y = y.reshape(-1,1)
+
+
+#.vstack uses to stack arrays on top of one another, np.ones_like creates 1's in the 1st columns, then x on the second ones
+A = np.vstack((np.ones_like(x),x))
+
+#Could have used np.zeros, but just a diagonal matrix would work
+C = np.diag(sigma_y**2)
+
+
