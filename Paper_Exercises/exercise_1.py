@@ -28,7 +28,7 @@ Y = y.reshape(-1,1)
 
 
 #.vstack uses to stack arrays on top of one another, np.ones_like creates 1's in the 1st columns, then x on the second ones
-A = np.vstack((np.ones_like(x),x)).T
+A = np.vstack((np.ones_like(x), x, x**2)).T  # Added x² term for quadratic fit
 
 #Could have used np.zeros, but just a diagonal matrix would work
 C = np.diag(sigma_y**2)
@@ -41,21 +41,26 @@ right_part= A.T @ np.linalg.inv(C) @ Y
 
 X= left_part @ right_part
 
-b,m = X.flatten()
+c, b, a = X.flatten()  # Now we have three parameters: a, b, c for ax² + bx + c
 
-variance= left_part[1,1]
+variance= left_part[2,2]  # Variance of the quadratic term
 
-print(f"Slope (m): {m}")
-print(f"Intercept (b): {b}")
-print(f"Variance of slope (sigma_m^2): {variance}")
+print(f"Quadratic coefficient (a): {a}")
+print(f"Linear coefficient (b): {b}")
+print(f"Constant term (c): {c}")
+print(f"Variance of quadratic coefficient (sigma_a^2): {variance}")
 
-# Plot data points with uncertainties and best-fit line
+# Plot data points with uncertainties and best-fit curve
 plt.errorbar(x, y, yerr=sigma_y, fmt='o', label='Data with uncertainties', capsize=4)
-plt.plot(x, m * x + b, label=f'Fit line: y={m:.2f}x + {b:.2f}', color='red')
+
+# Create a smooth curve for the quadratic fit
+x_smooth = np.linspace(min(x), max(x), 100)
+y_smooth = a * x_smooth**2 + b * x_smooth + c
+plt.plot(x_smooth, y_smooth, label=f'Fit curve: y={a:.2f}x² + {b:.2f}x + {c:.2f}', color='red')
 
 plt.xlabel('x')
 plt.ylabel('y')
-plt.title('Linear Fit with Uncertainties')
+plt.title('Quadratic Fit with Uncertainties')
 plt.legend()
 plt.grid(True)
 plt.show()
