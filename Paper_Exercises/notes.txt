@@ -1,0 +1,69 @@
+When you have uncertainties in your data (some points are more trustworthy than others), you want points with small uncertainties to influence the fit more.
+
+This is called a weighted least squares fit.
+
+The formula:
+
+
+
+𝑋
+X is a vector: 
+
+​
+  (intercept and slope)
+
+𝑌
+Y is your column of 
+𝑦
+y data
+
+𝐴
+A is a matrix with columns: all ones (for intercept), and all x values
+
+𝐶
+C is a diagonal matrix whose diagonal entries are the variances (
+​
+ ) of each y value
+
+What does this formula do?
+Weights:
+Multiplies everything by 
+𝐶
+−
+1
+C 
+−1
+  (the inverse of the uncertainties squared) so “good” data counts more.
+
+Best Match:
+Tries to find the combination of 
+𝑚
+m and 
+𝑏
+b that makes the predicted y-values as close as possible to your data y-values, with those weights.
+
+How does the formula find the best-fit?
+It minimizes the chi-squared:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
